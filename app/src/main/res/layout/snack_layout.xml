@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="nombre"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_centerVertical="true"
+        android:id="@+id/txv_snackTitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_toRightOf="@id/txv_snackTitle"
+        android:text="20.00 x"
+        android:layout_centerVertical="true"
+        android:id="@+id/txv_snackPrice"/>
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:layout_centerVertical="true"
+        android:text="0"
+        android:layout_toRightOf="@id/txv_snackPrice"
+        android:id="@+id/edt_snackQuantity"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="end"
+        android:layout_toRightOf="@id/snackQuantity"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="+"
+            android:id="@+id/snackPlus"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="-"
+            android:id="@+id/snackMinus"/>
+    </LinearLayout>
+</RelativeLayout>
