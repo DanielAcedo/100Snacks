@@ -11,7 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.danielacedo.a100snacks.R;
+import com.danielacedo.a100snacks.model.Beverage;
 import com.danielacedo.a100snacks.model.Product;
+import com.danielacedo.a100snacks.model.Snack;
+import com.danielacedo.a100snacks.repository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,22 @@ public class SnackAdapter extends ArrayAdapter<Product> {
 
     private List<Product> productList;
 
-    public SnackAdapter(Context context, List<Product> products){
-        super(context, R.layout.snack_layout);
-        productList = new ArrayList<>(products);
+    public SnackAdapter(Context context){
+        super(context, R.layout.snack_layout, new ArrayList<Product>(ProductRepository.getInstance().getProducts()));
+    }
+
+    public List<Product> getSelectedProducts(){
+        List<Product> selectedProducts = new ArrayList<>();
+
+        for (int i = 0; i<getCount(); i++){
+            Product p = getItem(i);
+
+            if(p.getQuantity() > 0){
+                selectedProducts.add(p);
+            }
+        }
+
+        return selectedProducts;
     }
 
     @NonNull
@@ -51,7 +67,7 @@ public class SnackAdapter extends ArrayAdapter<Product> {
         }
 
         holder.txv_title.setText(getItem(position).getName());
-        holder.txv_price.setText(String.format("%.2f", getItem(position).getPrice()));
+        holder.txv_price.setText(String.format("%.2f", getItem(position).getPrice())+" x");
         holder.edt_quantity.setText(String.valueOf(getItem(position).getQuantity()));
         holder.btn_plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +84,15 @@ public class SnackAdapter extends ArrayAdapter<Product> {
                 notifyDataSetChanged();
             }
         });
+
+        if(getItem(position) instanceof Snack){
+            v.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimary));
+        }
+        else if(getItem(position) instanceof Beverage){
+            v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+        }
+
+        return v;
     }
 
     public static class ProductHolder{
