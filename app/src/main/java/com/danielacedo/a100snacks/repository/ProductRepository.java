@@ -30,7 +30,7 @@ public class ProductRepository {
     }
 
     public List<Product> getProducts(){
-        return products;
+        return new ArrayList<>(products);
     }
 
     private void initializeProducts(){

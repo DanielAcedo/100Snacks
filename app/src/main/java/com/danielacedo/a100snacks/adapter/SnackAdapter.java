@@ -2,7 +2,9 @@ package com.danielacedo.a100snacks.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,10 +27,11 @@ import java.util.List;
 
 public class SnackAdapter extends ArrayAdapter<Product> {
 
-    private List<Product> productList;
+    private List<Product> originalList;
 
     public SnackAdapter(Context context){
         super(context, R.layout.snack_layout, new ArrayList<Product>(ProductRepository.getInstance().getProducts()));
+        originalList = new ArrayList<>(ProductRepository.getInstance().getProducts());
     }
 
     public List<Product> getSelectedProducts(){
@@ -69,6 +72,8 @@ public class SnackAdapter extends ArrayAdapter<Product> {
         holder.txv_title.setText(getItem(position).getName());
         holder.txv_price.setText(String.format("%.2f", getItem(position).getPrice())+" x");
         holder.edt_quantity.setText(String.valueOf(getItem(position).getQuantity()));
+        holder.btn_plus.setFocusable(false);
+        holder.btn_plus.setFocusableInTouchMode(false);
         holder.btn_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +82,8 @@ public class SnackAdapter extends ArrayAdapter<Product> {
             }
         });
 
+        holder.btn_minus.setFocusable(false);
+        holder.btn_minus.setFocusableInTouchMode(false);
         holder.btn_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +100,70 @@ public class SnackAdapter extends ArrayAdapter<Product> {
         }
 
         return v;
+    }
+
+    public void resetProductCount(){
+        for (int i = 0; i < getCount(); i++){
+            getItem(i).setQuantity(0);
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void sortSnackFirst(){
+        List<Snack> snacks = new ArrayList<>();
+        List<Beverage> beverages = new ArrayList<>();
+
+        for (int i = 0; i<originalList.size(); i++){
+            if(originalList.get(i) instanceof Snack)
+                snacks.add((Snack)originalList.get(i));
+            else if (originalList.get(i) instanceof Beverage)
+                beverages.add((Beverage) originalList.get(i));
+        }
+
+        clear();
+        addAll(snacks);
+        addAll(beverages);
+    }
+
+    public void sortBeverageFirst(){
+        List<Snack> snacks = new ArrayList<>();
+        List<Beverage> beverages = new ArrayList<>();
+
+        for (int i = 0; i<originalList.size(); i++){
+            if(originalList.get(i) instanceof Snack)
+                snacks.add((Snack)originalList.get(i));
+            else if (originalList.get(i) instanceof Beverage)
+                beverages.add((Beverage) originalList.get(i));
+        }
+
+        clear();
+        addAll(beverages);
+        addAll(snacks);
+    }
+
+    public void filterSnackOnly(){
+        List<Product> temp = new ArrayList<>();
+
+        for (int i = 0; i<originalList.size(); i++){
+            if(originalList.get(i) instanceof Snack)
+                temp.add(originalList.get(i));
+        }
+
+        clear();
+        addAll(temp);
+    }
+
+    public void filterBeverageOnly(){
+        List<Product> temp = new ArrayList<>();
+
+        for (int i = 0; i<originalList.size(); i++){
+            if(originalList.get(i) instanceof Beverage)
+                temp.add(originalList.get(i));
+        }
+
+        clear();
+        addAll(temp);
     }
 
     public static class ProductHolder{

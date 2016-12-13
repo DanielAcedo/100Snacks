@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Ordenar montaditos primero" android:id="@+id/menu_snack_sortfirst"/>
+    <item android:title="Ordenar bebidas primero" android:id="@+id/menu_beverage_sortfirst"/>
+    <item android:title="Solo montaditos" android:id = "@+id/menu_snackOnly"/>
+    <item android:title="Solo bebida" android:id = "@+id/menu_beverageOnly"/>
+</menu>
